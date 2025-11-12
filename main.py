@@ -87,10 +87,8 @@ class Main:
         self.Store_data()
 
     def Toggle_Attendance(self, subject, date):
-        print(self.subject_data[subject].loc[datetime.datetime.strptime(self.subject_data[subject]['Lec_Date'],"%a %b %d %Y") == date, 'Status'])
-        #present = bool(self.subject_data[subject].loc[self.subject_data[subject]['Lec_Date'] == date, 'Status'].values[0])
-        present = True
-        self.subject_data[subject].loc[self.subject_data[subject]['Lec_Date'] == date, 'Status'] = not present
+        present = bool(self.subject_data[subject].loc[pd.to_datetime(self.subject_data[subject]['Lec_Date'], format="%a %b %d %Y") == date,'Status'].values[0])
+        self.subject_data[subject].loc[pd.to_datetime(self.subject_data[subject]['Lec_Date'], format="%a %b %d %Y") == date,'Status'] = not present
         if present:
             self.attendance.loc[self.attendance['Subject'] == subject, 'Present'] -= 1
         else:
